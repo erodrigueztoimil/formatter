@@ -1,25 +1,14 @@
+// on key press format path
+// add to history
+// on component did mount, get history list from localstorage
+// on history state change, save to localstorage
+
 import React, { useState, useEffect } from "react";
 
 const SearchBar = (props) => {
   const [inputFocus, setInputFocus] = useState(false);
   const [path, setPath] = useState("");
-  // const [history, setHistory] = useState([]);
-
-  useEffect(() => {
-    if (inputFocus) {
-      document.getElementById("input-placeholder").style.transition =
-        "top .2s, transform .2s";
-      document.getElementById("input-placeholder").style.top = "5px";
-      document.getElementById("input-placeholder").style.transform =
-        "scale(.6)";
-      return;
-    } else {
-      document.getElementById("input-placeholder").style.top = "15px";
-      document.getElementById("input-placeholder").style.transform = "scale(1)";
-    }
-  }, [inputFocus]);
-
-  const testData = [
+  const [history, setHistory] = useState([
     "link",
     "link2",
     "link3",
@@ -31,7 +20,22 @@ const SearchBar = (props) => {
     "link9",
     "link",
     "link",
-  ];
+  ]);
+
+  useEffect(() => {
+    // if input has text, keep the placeholder on top
+    if (inputFocus || path) {
+      document.getElementById("input-placeholder").style.transition =
+        "top .2s, transform .2s";
+      document.getElementById("input-placeholder").style.top = "5px";
+      document.getElementById("input-placeholder").style.transform =
+        "scale(.6)";
+      return;
+    } else {
+      document.getElementById("input-placeholder").style.top = "15px";
+      document.getElementById("input-placeholder").style.transform = "scale(1)";
+    }
+  }, [inputFocus, path]);
 
   const linkMap = (arr) => {
     return arr.length > 0 ? (
@@ -74,7 +78,7 @@ const SearchBar = (props) => {
           pointerEvents: inputFocus ? "auto" : "none",
         }}
       >
-        <div className="search-history">{linkMap(testData)}</div>
+        <div className="search-history">{linkMap(history)}</div>
       </div>
 
       <input
