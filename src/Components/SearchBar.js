@@ -63,7 +63,7 @@ const SearchBar = (props) => {
       // }
 
       // copy to clipboard
-      // navigator.clipboard.writeText(pathFormatted);
+      navigator.clipboard.writeText(pathFormatted);
 
       // set input value to blank
       setPath("");
