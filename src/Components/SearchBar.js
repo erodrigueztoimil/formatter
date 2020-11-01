@@ -23,10 +23,9 @@ const SearchBar = (props) => {
       document.getElementById("input-placeholder").style.transform = "scale(1)";
     }
 
-    // retrive history from localstorage
-    let savedHistory = JSON.parse(localStorage.getItem("history"));
-    if (savedHistory) {
-      setHistory(savedHistory);
+    // if array saved in localstorage, retrive data and save to local state
+    if (JSON.parse(localStorage.getItem("history"))) {
+      setHistory(JSON.parse(localStorage.getItem("history")));
     }
   }, [inputFocus, path]);
 
@@ -53,7 +52,7 @@ const SearchBar = (props) => {
 
       // save path to history
       setHistory((historyArray) => [pathFormatted, ...historyArray]);
-      console.log(path);
+      localStorage.setItem("history", JSON.stringify(history));
       // let savedHistory = JSON.parse(localStorage.getItem("history"));
 
       // if (savedHistory) {
@@ -63,7 +62,7 @@ const SearchBar = (props) => {
       // }
 
       // copy to clipboard
-      navigator.clipboard.writeText(pathFormatted);
+      // navigator.clipboard.writeText(pathFormatted);
 
       // set input value to blank
       setPath("");
