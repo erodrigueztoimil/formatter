@@ -1,26 +1,13 @@
-// on key press format path
-// add to history
 // on component did mount, get history list from localstorage
 // on history state change, save to localstorage
+// on past path click, copy to clipboard
 
 import React, { useState, useEffect } from "react";
 
 const SearchBar = (props) => {
   const [inputFocus, setInputFocus] = useState(false);
   const [path, setPath] = useState("");
-  const [history, setHistory] = useState([
-    "link",
-    "link2",
-    "link3",
-    "link4",
-    "link5",
-    "link6",
-    "link7",
-    "link8",
-    "link9",
-    "link",
-    "link",
-  ]);
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
     // if input has text, keep the placeholder on top
@@ -35,6 +22,12 @@ const SearchBar = (props) => {
       document.getElementById("input-placeholder").style.top = "15px";
       document.getElementById("input-placeholder").style.transform = "scale(1)";
     }
+
+    // retrive history from localstorage
+    let savedHistory = JSON.parse(localStorage.getItem("history"));
+    if (savedHistory) {
+      setHistory(savedHistory);
+    }
   }, [inputFocus, path]);
 
   const linkMap = (arr) => {
@@ -45,17 +38,35 @@ const SearchBar = (props) => {
         </div>
       ))
     ) : (
-      <div style={{ padding: "10px 20px" }}> No Recent Searches </div>
+      <div style={{ padding: "10px 20px" }}> No Recent Paths</div>
     );
   };
 
-  const onInputChage = (e) => {
+  const onInputChange = (e) => {
     setPath(e.target.value);
   };
 
   const onKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && path) {
+      // save formatted path
+      let pathFormatted = path.replaceAll("\\", "/");
+
+      // save path to history
+      setHistory((historyArray) => [pathFormatted, ...historyArray]);
       console.log(path);
+      // let savedHistory = JSON.parse(localStorage.getItem("history"));
+
+      // if (savedHistory) {
+      //   localStorage.setItem("history", JSON.stringify(history));
+      // } else {
+      //   localStorage.setItem("history");
+      // }
+
+      // copy to clipboard
+      // navigator.clipboard.writeText(pathFormatted);
+
+      // set input value to blank
+      setPath("");
     }
   };
 
@@ -86,7 +97,7 @@ const SearchBar = (props) => {
         onFocus={() => setInputFocus(true)}
         onBlur={() => setInputFocus(false)}
         value={path}
-        onChange={onInputChage}
+        onChange={onInputChange}
         onKeyPress={onKeyPress}
       />
     </div>
