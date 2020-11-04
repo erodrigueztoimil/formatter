@@ -22,12 +22,13 @@ const SearchBar = (props) => {
       document.getElementById("input-placeholder").style.top = "15px";
       document.getElementById("input-placeholder").style.transform = "scale(1)";
     }
-
-    // if array saved in localstorage, retrive data and save to local state
-    if (JSON.parse(localStorage.getItem("history"))) {
-      setHistory(JSON.parse(localStorage.getItem("history")));
-    }
   }, [inputFocus, path]);
+
+  // useEffect(() => {
+  //   if (!localStorage.getItem("history")) {
+  //     localStorage.setItem("history", JSON.stringify(history));
+  //   }
+  // });
 
   const linkMap = (arr) => {
     return arr.length > 0 ? (
@@ -50,19 +51,17 @@ const SearchBar = (props) => {
       // save formatted path
       let pathFormatted = path.replaceAll("\\", "/");
 
-      // save path to history
+      // save path to history state
       setHistory((historyArray) => [pathFormatted, ...historyArray]);
-      localStorage.setItem("history", JSON.stringify(history));
-      // let savedHistory = JSON.parse(localStorage.getItem("history"));
 
-      // if (savedHistory) {
-      //   localStorage.setItem("history", JSON.stringify(history));
-      // } else {
-      //   localStorage.setItem("history");
-      // }
+      // save to localstorage
+      let savedData = localStorage.getItem("history");
+
+      let data = savedData ? JSON.parse(savedData).push(pathFormatted) : [];
+      localStorage.setItem("history", JSON.stringify(data));
 
       // copy to clipboard
-      // navigator.clipboard.writeText(pathFormatted);
+      navigator.clipboard.writeText(pathFormatted);
 
       // set input value to blank
       setPath("");
