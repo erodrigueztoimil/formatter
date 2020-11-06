@@ -24,12 +24,6 @@ const SearchBar = (props) => {
     }
   }, [inputFocus, path]);
 
-  // useEffect(() => {
-  //   if (!localStorage.getItem("history")) {
-  //     localStorage.setItem("history", JSON.stringify(history));
-  //   }
-  // });
-
   const linkMap = (arr) => {
     return arr.length > 0 ? (
       arr.map((i, index) => (
@@ -42,30 +36,30 @@ const SearchBar = (props) => {
     );
   };
 
-  const onInputChange = (e) => {
+  // const onKeyPress = (e) => {
+  //   if (e.key === "Enter" && path) {
+  //     // save formatted path
+  //     let pathFormatted = path.replaceAll("\\", "/");
+
+  //     // save path to history state
+  //     setHistory((historyArray) => [pathFormatted, ...historyArray]);
+
+  //     // save to localstorage
+  //     let savedData = localStorage.getItem("history");
+
+  //     let data = savedData ? JSON.parse(savedData).push(pathFormatted) : [];
+  //     localStorage.setItem("history", JSON.stringify(data));
+
+  //     // copy to clipboard
+  //     navigator.clipboard.writeText(pathFormatted);
+
+  //     // set input value to blank
+  //     setPath("");
+  //   }
+  // };
+
+  const handleChange = (e) => {
     setPath(e.target.value);
-  };
-
-  const onKeyPress = (e) => {
-    if (e.key === "Enter" && path) {
-      // save formatted path
-      let pathFormatted = path.replaceAll("\\", "/");
-
-      // save path to history state
-      setHistory((historyArray) => [pathFormatted, ...historyArray]);
-
-      // save to localstorage
-      let savedData = localStorage.getItem("history");
-
-      let data = savedData ? JSON.parse(savedData).push(pathFormatted) : [];
-      localStorage.setItem("history", JSON.stringify(data));
-
-      // copy to clipboard
-      navigator.clipboard.writeText(pathFormatted);
-
-      // set input value to blank
-      setPath("");
-    }
   };
 
   return (
@@ -95,8 +89,7 @@ const SearchBar = (props) => {
         onFocus={() => setInputFocus(true)}
         onBlur={() => setInputFocus(false)}
         value={path}
-        onChange={onInputChange}
-        onKeyPress={onKeyPress}
+        onChange={handleChange}
       />
     </div>
   );
