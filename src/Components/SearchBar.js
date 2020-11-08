@@ -7,6 +7,13 @@ import React, { useState, useEffect } from "react";
 const SearchBar = (props) => {
   const [inputFocus, setInputFocus] = useState(false);
   const [path, setPath] = useState("");
+
+  // function useLocalState(localItem) {
+  //   const [item, setItem] = useState(localStorage.getItem(localItem));
+
+  //   return [item, setItem];
+  // }
+
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
