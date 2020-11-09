@@ -8,13 +8,17 @@ const SearchBar = (props) => {
   const [inputFocus, setInputFocus] = useState(false);
   const [path, setPath] = useState("");
 
-  // function useLocalState(localItem) {
-  //   const [item, setItem] = useState(localStorage.getItem(localItem));
+  // use localStorage as history state default value
+  const getLocalHistory = () => {
+    let localHistory = JSON.parse(localStorage.getItem("history"));
+    if (localHistory) {
+      return localHistory;
+    } else {
+      return [];
+    }
+  };
 
-  //   return [item, setItem];
-  // }
-
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(getLocalHistory);
 
   useEffect(() => {
     // if input has text, keep the placeholder on top
@@ -33,40 +37,45 @@ const SearchBar = (props) => {
 
   const linkMap = (arr) => {
     return arr.length > 0 ? (
-      arr.map((i, index) => (
-        <div className="link-container" key={`recent-${index}`}>
-          {i}
-        </div>
-      ))
+      arr
+        .slice(0)
+        .reverse()
+        .map((i, index) => (
+          <div className="link-container" key={`recent-${index}`}>
+            {i}
+          </div>
+        ))
     ) : (
       <div style={{ padding: "10px 20px" }}> No Recent Paths</div>
     );
   };
 
-  // const onKeyPress = (e) => {
-  //   if (e.key === "Enter" && path) {
-  //     // save formatted path
-  //     let pathFormatted = path.replaceAll("\\", "/");
-
-  //     // save path to history state
-  //     setHistory((historyArray) => [pathFormatted, ...historyArray]);
-
-  //     // save to localstorage
-  //     let savedData = localStorage.getItem("history");
-
-  //     let data = savedData ? JSON.parse(savedData).push(pathFormatted) : [];
-  //     localStorage.setItem("history", JSON.stringify(data));
-
-  //     // copy to clipboard
-  //     navigator.clipboard.writeText(pathFormatted);
-
-  //     // set input value to blank
-  //     setPath("");
-  //   }
-  // };
+  // save to localStorage
+  const persist = (item, data) => {
+    localStorage.setItem(item, JSON.stringify(data));
+  };
 
   const handleChange = (e) => {
     setPath(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && path) {
+      // format path and save it to history array
+      let pathFormatted = path.replaceAll("\\", "/");
+      let newHistory = history;
+      newHistory.push(pathFormatted);
+      setHistory(newHistory);
+
+      // save history to localStorage
+      persist("history", history);
+
+      // copy to clipboard
+      navigator.clipboard.writeText(pathFormatted);
+
+      // reset path input
+      setPath("");
+    }
   };
 
   return (
@@ -97,6 +106,7 @@ const SearchBar = (props) => {
         onBlur={() => setInputFocus(false)}
         value={path}
         onChange={handleChange}
+        onKeyPress={handleKeyPress}
       />
     </div>
   );
