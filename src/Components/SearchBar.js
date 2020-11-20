@@ -2,7 +2,7 @@
 // on history state change, save to localstorage
 // on past path click, copy to clipboard
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 const SearchBar = (props) => {
   const [inputFocus, setInputFocus] = useState(false);
@@ -36,13 +36,18 @@ const SearchBar = (props) => {
   }, [inputFocus, path]);
 
   const linkMap = (arr) => {
+
+    const newArr = [...arr]
+    newArr.slice(0)
+
     return arr.length > 0 ? (
-      arr
-        .slice(0)
-        .reverse()
+        newArr
         .map((i, index) => (
           <div className="link-container" key={`recent-${index}`}>
-            {i}
+            <div className="link">
+              {i}
+            </div>
+            <div className="remove" onClick={() => removeItem(index)}/>
           </div>
         ))
     ) : (
@@ -63,12 +68,12 @@ const SearchBar = (props) => {
     if (e.key === "Enter" && path) {
       // format path and save it to history array
       let pathFormatted = path.replaceAll("\\", "/");
-      let newHistory = history;
+      let newHistory = [...history];
       newHistory.push(pathFormatted);
-      setHistory(newHistory);
+      setHistory(newHistory.reverse());
 
       // save history to localStorage
-      persist("history", history);
+//      persist("history", history);
 
       // copy to clipboard
       navigator.clipboard.writeText(pathFormatted);
@@ -78,7 +83,20 @@ const SearchBar = (props) => {
     }
   };
 
+  const removeItem = async (index) => {
+    const newArr = [...history]
+
+    newArr.splice(index, 1)
+
+    setHistory(newArr.reverse())
+  }
+
+  useEffect(() => {
+    persist("history", history)
+  }, [history])
+
   return (
+    <Fragment>
     <div className="input-container">
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg"
@@ -90,16 +108,6 @@ const SearchBar = (props) => {
         Enter Path Here.
       </div>
 
-      <div
-        className="search-history-container"
-        style={{
-          opacity: inputFocus ? 1 : 0,
-          pointerEvents: inputFocus ? "auto" : "none",
-        }}
-      >
-        <div className="search-history">{linkMap(history)}</div>
-      </div>
-
       <input
         className="input-main"
         onFocus={() => setInputFocus(true)}
@@ -109,6 +117,14 @@ const SearchBar = (props) => {
         onKeyPress={handleKeyPress}
       />
     </div>
+
+    <div
+        className="search-history-container"
+      >
+        <div className="search-history">{linkMap(history)}</div>
+      </div>
+    </Fragment>
+
   );
 };
 

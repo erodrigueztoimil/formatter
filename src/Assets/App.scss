@@ -35,15 +35,22 @@ $lightGray: #d3d3d3;
   position: absolute;
   padding-left: 50px;
   padding-top: 12px;
-  transition: border 0.1s, box-shadow 0s;
+  transition: border 0.4s, box-shadow .4s;
   font-size: 16px;
 
   &:hover {
     border: 2px solid white;
-    box-shadow: 0px 1px 5px grey;
-    transition: box-shadow 0s;
+    box-shadow: 0px 3px 3px grey;
+    transition: box-shadow .2s;
   }
 
+  &:focus {
+    border: 2px solid white;
+    box-shadow: 0px 1px 3px grey;
+    transition: box-shadow .2s;
+  }
+
+  /*
   &:focus {
     border: 2px solid white;
     border-bottom: 1px solid $lightGray;
@@ -53,6 +60,7 @@ $lightGray: #d3d3d3;
     border-bottom-right-radius: 0px;
     transition: box-shadow 0s;
   }
+  */
 }
 
 .input-placeholder {
@@ -81,16 +89,16 @@ $lightGray: #d3d3d3;
 
 .search-history-container {
   width: 100%;
+  max-width: 600px;
+  width: 100%;
   height: 300px;
-  position: absolute;
-  top: 0px;
   overflow: hidden;
-  // overflow-y: scroll;
-  box-shadow: 0px 1px 5px grey;
-  z-index: 1000000;
+  box-shadow: 1px 1px 5px grey;
   border-radius: 25px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
   box-sizing: border-box;
-  padding-top: 50px;
+  margin-top: 20px;
 }
 
 .search-history {
@@ -100,7 +108,6 @@ $lightGray: #d3d3d3;
   flex: 1;
   overflow-y: scroll;
   height: 100%;
-  padding-top: 5px;
 }
 
 .link-container {
@@ -110,10 +117,26 @@ $lightGray: #d3d3d3;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  padding: 12px 15px;
+  justify-content: flex-start;
+  position: relative;
 
   &:hover {
     background: $lightGray;
     color: white;
   }
+}
+
+.link {
+  padding: 12px 15px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.remove {
+  width: 50px;
+  height: 100%;
+  position: absolute;
+  background-color: red;
+  right: 0;
+
 }
