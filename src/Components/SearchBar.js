@@ -2,6 +2,8 @@
 // on history state change, save to localstorage
 // on past path click, copy to clipboard
 
+import closeIcon from '../Assets/close-outline.svg'
+
 import React, { useState, useEffect, Fragment } from "react";
 
 const SearchBar = (props) => {
@@ -35,6 +37,11 @@ const SearchBar = (props) => {
     }
   }, [inputFocus, path]);
 
+  const linkClick = (path) => {
+    // copy to clipboard
+    navigator.clipboard.writeText(path);
+  }
+
   const linkMap = (arr) => {
 
     const newArr = [...arr]
@@ -44,10 +51,15 @@ const SearchBar = (props) => {
         newArr
         .map((i, index) => (
           <div className="link-container" key={`recent-${index}`}>
-            <div className="link">
+            <div className="link" onClick={() => linkClick(i)}>
               {i}
             </div>
-            <div className="remove" onClick={() => removeItem(index)}/>
+            <div className="remove" onClick={() => removeItem(index)}>
+              <img 
+                src={closeIcon}
+                className="closeIcon"
+              />
+            </div>
           </div>
         ))
     ) : (
@@ -69,11 +81,8 @@ const SearchBar = (props) => {
       // format path and save it to history array
       let pathFormatted = path.replaceAll("\\", "/");
       let newHistory = [...history];
-      newHistory.push(pathFormatted);
-      setHistory(newHistory.reverse());
-
-      // save history to localStorage
-//      persist("history", history);
+      newHistory.unshift(pathFormatted);
+      setHistory(newHistory);
 
       // copy to clipboard
       navigator.clipboard.writeText(pathFormatted);
@@ -84,47 +93,50 @@ const SearchBar = (props) => {
   };
 
   const removeItem = async (index) => {
-    const newArr = [...history]
+    const newHistory = [...history]
 
-    newArr.splice(index, 1)
+    newHistory.splice(index, 1)
 
-    setHistory(newArr.reverse())
+    setHistory(newHistory)
   }
 
+  //update localStorage any time history state changes
   useEffect(() => {
     persist("history", history)
   }, [history])
 
+
+
   return (
     <Fragment>
-    <div className="input-container">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg"
-        className="search-img"
-        alt="search icon"
-      />
+      <div className="input-container">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg"
+          className="search-img"
+          alt="search icon"
+        />
 
-      <div className="input-placeholder" id="input-placeholder" style={{}}>
-        Enter Path Here.
+        <div className="input-placeholder" id="input-placeholder" style={{}}>
+          Enter Path Here.
+        </div>
+
+        <input
+          className="input-main"
+          onFocus={() => setInputFocus(true)}
+          onBlur={() => setInputFocus(false)}
+          value={path}
+          onChange={handleChange}
+          onKeyPress={handleKeyPress}
+        />
       </div>
 
-      <input
-        className="input-main"
-        onFocus={() => setInputFocus(true)}
-        onBlur={() => setInputFocus(false)}
-        value={path}
-        onChange={handleChange}
-        onKeyPress={handleKeyPress}
-      />
-    </div>
-
-    <div
+      <div
         className="search-history-container"
       >
         <div className="search-history">{linkMap(history)}</div>
       </div>
-    </Fragment>
 
+    </Fragment>
   );
 };
 
