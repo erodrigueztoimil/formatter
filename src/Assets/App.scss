@@ -37,19 +37,20 @@ $lightGray: #d3d3d3;
   position: absolute;
   padding-left: 50px;
   padding-top: 12px;
-  transition: border 0.4s, box-shadow .4s;
+  transition: border 0.4s, box-shadow 0.4s;
   font-size: 16px;
+  box-shadow: 1px 1px 20px rgba(163, 163, 163, 0.582);
 
   &:hover {
     border: 2px solid white;
     box-shadow: 0px 2px 3px grey;
-    transition: box-shadow .2s;
+    transition: box-shadow 0.2s;
   }
 
   &:focus {
     border: 2px solid white;
     box-shadow: 0px 1px 3px grey;
-    transition: box-shadow .2s;
+    transition: box-shadow 0.2s;
   }
 
   /*
@@ -94,12 +95,10 @@ $lightGray: #d3d3d3;
   max-width: 600px;
   height: 300px;
   overflow: hidden;
-  box-shadow: 1px 1px 5px grey;
+  box-shadow: 1px 1px 20px rgba(201, 201, 201, 0.582);
   border-radius: 25px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
   box-sizing: border-box;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .search-history {
@@ -128,7 +127,7 @@ $lightGray: #d3d3d3;
     cursor: pointer;
 
     .remove {
-      transition: transform .4s;
+      transition: transform 0.4s;
       transform: translateX(0px);
     }
   }
@@ -147,13 +146,13 @@ $lightGray: #d3d3d3;
   background-color: red;
   right: 0;
   border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;;
+  border-top-left-radius: 10px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   transform: translateX(40px);
-  transition: transform .4s;
+  transition: transform 0.4s;
 
   .closeIcon {
     height: 20px;
@@ -163,7 +162,7 @@ $lightGray: #d3d3d3;
 
   &:active {
     .closeIcon {
-      transform: scale(.9)
+      transform: scale(0.9);
     }
   }
 }
