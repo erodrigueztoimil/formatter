@@ -5,7 +5,7 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-$lightGray: #d3d3d3;
+$lightGray: #dadada;
 
 .App {
   min-height: 100vh;
@@ -33,23 +33,25 @@ $lightGray: #d3d3d3;
   outline: none;
   box-sizing: border-box;
   border-radius: 25px;
-  border: 1px solid $lightGray;
+  // border: 1px solid $lightGray;
+  border: none;
   position: absolute;
   padding-left: 50px;
   padding-top: 12px;
-  transition: border 0.4s, box-shadow 0.4s;
+  transition: box-shadow 0.4s;
   font-size: 16px;
-  box-shadow: 1px 1px 20px rgba(163, 163, 163, 0.582);
+  box-shadow: 1px 1px 20px rgba(177, 177, 177, 0.582);
 
   &:hover {
     border: 2px solid white;
-    box-shadow: 0px 2px 3px grey;
+    box-shadow: 10px 10px 20px rgba(177, 177, 177, 0.582);
     transition: box-shadow 0.2s;
   }
 
   &:focus {
-    border: 2px solid white;
-    box-shadow: 0px 1px 3px grey;
+    // border: 2px solid white;
+    // box-shadow: 0px 1px 3px grey;
+    box-shadow: 10px 10px 20px rgba(177, 177, 177, 0.582);
     transition: box-shadow 0.2s;
   }
 
