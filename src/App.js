@@ -6,7 +6,7 @@ import SearchBar from "./Components/SearchBar";
 function App() {
   return (
     <div className="App">
-      <h1>Server Path Formatter</h1>
+      <h1 style={{ marginBottom: "40px" }}>Server Path Formatter</h1>
       <SearchBar />
     </div>
   );

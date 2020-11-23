@@ -2,7 +2,7 @@
 // on history state change, save to localstorage
 // on past path click, copy to clipboard
 
-import closeIcon from '../Assets/close-outline.svg'
+import closeIcon from "../Assets/close-outline.svg";
 
 import React, { useState, useEffect, Fragment } from "react";
 
@@ -40,28 +40,23 @@ const SearchBar = (props) => {
   const linkClick = (path) => {
     // copy to clipboard
     navigator.clipboard.writeText(path);
-  }
+  };
 
   const linkMap = (arr) => {
-
-    const newArr = [...arr]
-    newArr.slice(0)
+    const newArr = [...arr];
+    newArr.slice(0);
 
     return arr.length > 0 ? (
-        newArr
-        .map((i, index) => (
-          <div className="link-container" key={`recent-${index}`}>
-            <div className="link" onClick={() => linkClick(i)}>
-              {i}
-            </div>
-            <div className="remove" onClick={() => removeItem(index)}>
-              <img 
-                src={closeIcon}
-                className="closeIcon"
-              />
-            </div>
+      newArr.map((i, index) => (
+        <div className="link-container" key={`recent-${index}`}>
+          <div className="link" onClick={() => linkClick(i)}>
+            {i}
           </div>
-        ))
+          <div className="remove" onClick={() => removeItem(index)}>
+            <img src={closeIcon} alt="Close Icon" className="closeIcon" />
+          </div>
+        </div>
+      ))
     ) : (
       <div style={{ padding: "10px 20px" }}> No Recent Paths</div>
     );
@@ -93,19 +88,17 @@ const SearchBar = (props) => {
   };
 
   const removeItem = async (index) => {
-    const newHistory = [...history]
+    const newHistory = [...history];
 
-    newHistory.splice(index, 1)
+    newHistory.splice(index, 1);
 
-    setHistory(newHistory)
-  }
+    setHistory(newHistory);
+  };
 
   //update localStorage any time history state changes
   useEffect(() => {
-    persist("history", history)
-  }, [history])
-
-
+    persist("history", history);
+  }, [history]);
 
   return (
     <Fragment>
@@ -130,12 +123,9 @@ const SearchBar = (props) => {
         />
       </div>
 
-      <div
-        className="search-history-container"
-      >
+      <div className="search-history-container">
         <div className="search-history">{linkMap(history)}</div>
       </div>
-
     </Fragment>
   );
 };
