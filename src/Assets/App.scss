@@ -9,13 +9,15 @@ $lightGray: #d3d3d3;
 
 .App {
   min-height: 100vh;
-  min-width: 100vh;
+  max-height: 100%;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  padding: 20px;
 }
 
 .input-container {
@@ -40,7 +42,7 @@ $lightGray: #d3d3d3;
 
   &:hover {
     border: 2px solid white;
-    box-shadow: 0px 3px 3px grey;
+    box-shadow: 0px 2px 3px grey;
     transition: box-shadow .2s;
   }
 
@@ -90,7 +92,6 @@ $lightGray: #d3d3d3;
 .search-history-container {
   width: 100%;
   max-width: 600px;
-  width: 100%;
   height: 300px;
   overflow: hidden;
   box-shadow: 1px 1px 5px grey;
@@ -119,10 +120,17 @@ $lightGray: #d3d3d3;
   align-items: center;
   justify-content: flex-start;
   position: relative;
+  overflow-x: hidden;
 
   &:hover {
     background: $lightGray;
     color: white;
+    cursor: pointer;
+
+    .remove {
+      transition: transform .4s;
+      transform: translateX(0px);
+    }
   }
 }
 
@@ -133,10 +141,29 @@ $lightGray: #d3d3d3;
 }
 
 .remove {
-  width: 50px;
+  width: 40px;
   height: 100%;
   position: absolute;
   background-color: red;
   right: 0;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(40px);
+  transition: transform .4s;
 
+  .closeIcon {
+    height: 20px;
+    width: 20px;
+    filter: invert(1);
+  }
+
+  &:active {
+    .closeIcon {
+      transform: scale(.9)
+    }
+  }
 }
