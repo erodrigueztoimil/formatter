@@ -1,10 +1,5 @@
-// on component did mount, get history list from localstorage
-// on history state change, save to localstorage
-// on past path click, copy to clipboard
-
-import closeIcon from "../Assets/close-outline.svg";
-
 import React, { useState, useEffect, Fragment } from "react";
+import closeIcon from "../Assets/close-outline.svg";
 
 const SearchBar = (props) => {
   const [inputFocus, setInputFocus] = useState(false);
